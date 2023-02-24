@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <section class="posts">
+        <h1>Latest Posts</h1>
+        {% for post in posts %}
+            <article class="article">
+                <img src="{{ post.author.profile.image.url }}" alt="author image" class="profile_img">
+                <div class="article_content">
+                    <a href="{% url 'blog-detail' post.id %}" class="article__title">{{ post.title }}</a>
+                    {% if post.summary %}
+                        <p>{{ post.summary }}</p>
+                    {% endif %}
+                    <div class="article__meta">
+                        <small>
+                            Post By:
+                            <span>{{ post.author }}</span>
+                            On
+                            <span>{{ post.pub_date | date:"F d, Y" }}</span>
+                        </small>
+                    </div>
+                    <p>
+                        {{ post.content }}
+                    </p>
+                </div>
+            </article>
+        {% empty %}
+            <p>Posts is empty</p>
+        {% endfor %}
+    </section>
+    <div class="pagination">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+            {% endif %}
+        
+            {% for num in page_obj.paginator.page_range %}
+                   {% if page_obj.number == num %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a href="?page={{ num }}">{{num}}</a>
+                    {% endif %}
+            {% endfor %}
+        
+        
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+        
+        {% endif %}
+    </div>
+{% endblock content %}

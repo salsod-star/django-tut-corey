@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% if title %}
+      <title>LearnSoft - {{ title }}</title>
+    {% else %}
+      <title>LearnSoft</title>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/layout.css' %}">
+  </head>
+  <body>
+  <header class="header">
+    <span class="logo">
+      <a href="{% url 'blog-home' %}">My BLOG</a>
+    </span>
+    <nav>
+      <ul>
+        <li><a href="{% url 'blog-about' %}">About</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'blog-create' %}">New post</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
+    {% if message %}
+      {% for message in messages %}
+        <div class="success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content%}{% endblock %}
+    <aside class="sidebar">
+        <h2>Side Nav</h2>
+        <ul>
+            <li><a href="#">Latest posts</a></li>
+            <li><a href="#">Announcement</a></li>
+            <li><a href="#">Calendar</a></li>
+        </ul>
+    </aside>
+  </main>
+  </body>
+</html>

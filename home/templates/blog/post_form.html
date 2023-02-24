@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <section class="register">
+		<form method="POST" class="register_form">
+			{% csrf_token %}
+			<fieldset class="form_group">
+				<legend>Blog Post</legend>
+				{{ form.as_p }}
+			</fieldset>
+			<button class="submit-btn" type="submit">Post</button>
+		</form>
+	</section>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <section>
+		<div class="profile">
+			<img src="{{ user.profile.image.url }}" alt="profile_picture" class="profile_img">
+			<div>
+				<h2>{{ user.username }}</h2>
+				{% if user.email %}
+					<p>{{ user.email }}</p>
+				{% endif %}
+			</div>
+		</div>
+		
+		<form method="POST" enctype="multipart/form-data" class="register_form">
+			{% csrf_token %}
+			<fieldset class="form_group">
+				<legend>PROFILE INFO</legend>
+				{{ u_form.as_p }}
+				{{ p_form.as_p }}
+			</fieldset>
+			<button class="submit-btn" type="submit">Update</button>
+		</form>
+	</section>
+{% endblock content %}
